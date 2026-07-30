@@ -1,6 +1,6 @@
-# Dev Atlas
+# Fong Tsz_ho's harbor
 
-Dev Atlas is a Nuxt Content based personal developer site for notes, projects, wiki pages, and profile content.
+Fong Tsz_ho's harbor is a Nuxt Content based personal developer site for notes, projects, wiki pages, and profile content.
 
 ## Setup
 
