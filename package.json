@@ -2,6 +2,7 @@
   "name": "dev-atlas",
   "type": "module",
   "private": true,
+  "packageManager": "pnpm@11.17.0",
   "scripts": {
     "build": "nuxt build",
     "dev": "nuxt dev",
@@ -10,7 +11,7 @@
   },
   "dependencies": {
     "@nuxt/content": "3.15.2",
-    "better-sqlite3": "^13.0.1",
+    "better-sqlite3": "^12.5.0",
     "nuxt": "4.5.0",
     "ogl": "^1.0.11",
     "simple-icons": "^16.27.1"
