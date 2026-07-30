@@ -3,7 +3,9 @@ export default defineNuxtConfig({
   css: ['~/assets/css/main.css'],
   devtools: { enabled: true },
   app: {
+    baseURL: '/fongtszho.web/',  // ⚠️ 加上这一行！必须和你的仓库名一致
     head: {
+
       title: "FongTszHo's Harbor",
       htmlAttrs: {
         lang: 'zh-CN'
