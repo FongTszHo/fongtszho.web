@@ -1,34 +1,37 @@
 ---
-title: Claude Code 安装记录
-description: 记录 Claude Code 在本地环境中的安装、配置和后续集成思路。
+title: "Claude Code Install"
+description: "从 Obsidian 同步的 AI Agent 笔记。"
 date: 2026-07-21
-category: AI Agent
-tags: [Claude Code, Tooling]
+category: "AI Agent"
+tags: ["AI Agent"]
 type: wiki
 draft: false
 ---
-
-# Claude Code 安装记录
-
-## 安装 Claude
-
-使用官方安装命令：
-
+资料
+> [菜鸟教程 - Claude Code 安装](https://www.runoob.com/claude-code/claude-code-install.html)
+> [Claude Code 官方文档 - 快速开始](https://code.claude.com/docs/zh-CN/quickstart#native-install-recommended)
+# 一、安装 claude
+使用官方命令行安装
 ```bash
 curl -fsSL https://claude.ai/install.sh | bash
 ```
-
-安装完成后，如果使用 fish，需要把安装目录加入 PATH。
-
+安装完成后若使用fish,需要添加`PATH
 ```bash
+# install path
 ls ~/.local/bin
+# add claude path to fish
 fish_add_path ~/.local/bin
+# update fish
 source ~/.config/fish/config.fish
+#check version
 claude --version
+#显示
+2.1.150 (Claude Code)
 ```
 
-## 后续方向
 
-- 整理常用命令
-- 记录不同模型和代理服务的配置方式
-- 沉淀 AI Agent 开发中的上下文管理经验
+# 安装CC switch
+> [CC Switch 官网](https://ccswitch.io/zh/)
+
+deepseek接入cc 
+> [DeepSeek API 文档 - Claude Code 集成](https://api-docs.deepseek.com/zh-cn/quick_start/agent_integrations/claude_code)
