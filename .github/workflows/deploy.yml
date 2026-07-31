@@ -24,7 +24,7 @@ jobs:
       - name: Checkout Obsidian Wiki
         uses: actions/checkout@v6
         with:
-          repository: Lucas-Fang/My_Wiki
+          repository: FongTszHo/My_Wiki
           path: .wiki-source
           fetch-depth: 0
       - uses: pnpm/action-setup@v6
