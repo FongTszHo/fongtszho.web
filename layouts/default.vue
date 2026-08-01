@@ -9,14 +9,8 @@ const navItems = [
   { label: '关于', to: '/about' }
 ]
 
-const { data: currentPage } = await useAsyncData(
-  () => `reading-progress-${route.path}`,
-  () => queryCollection('content').path(route.path).first(),
-  { watch: [() => route.path] }
-)
-
 const showReadingProgress = computed(() =>
-  ['wiki', 'blog', 'project'].includes(currentPage.value?.type || '')
+  /^\/(?:wiki|blog|projects)\/.+/.test(route.path)
 )
 </script>
 

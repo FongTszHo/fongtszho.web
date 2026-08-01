@@ -1,3 +1,34 @@
+import { readdir } from 'node:fs/promises'
+import { join, relative, resolve } from 'node:path'
+
+async function collectContentRoutes(directory: string, root = directory): Promise<string[]> {
+  try {
+    const entries = await readdir(directory, { withFileTypes: true })
+    const nestedRoutes = await Promise.all(entries.map(async (entry) => {
+      const entryPath = join(directory, entry.name)
+
+      if (entry.isDirectory()) {
+        return collectContentRoutes(entryPath, root)
+      }
+
+      if (!entry.isFile() || !/\.mdc?$/.test(entry.name)) {
+        return []
+      }
+
+      const relativePath = relative(root, entryPath)
+        .replace(/\\/g, '/')
+        .replace(/\.mdc?$/, '')
+      return [relativePath === 'index' ? '/' : `/${relativePath}`]
+    }))
+
+    return nestedRoutes.flat()
+  } catch {
+    return []
+  }
+}
+
+const contentRoutes = await collectContentRoutes(resolve(process.cwd(), 'content'))
+
 export default defineNuxtConfig({
   modules: ['@nuxt/content'],
   css: ['~/assets/css/main.css'],
@@ -27,7 +58,7 @@ export default defineNuxtConfig({
   nitro: {
     prerender: {
       crawlLinks: true,
-      routes: ['/']
+      routes: ['/', ...contentRoutes]
     }
   },
   compatibilityDate: '2026-07-25'

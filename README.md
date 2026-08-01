@@ -20,6 +20,13 @@ npm run dev
 npm run generate
 ```
 
+## 同步本地wiki
+
+```bash
+node scripts/sync-wiki.mjs /home/xiaofang/user/My_Wiki
+```
+
+
 ## Content
 
 Write Markdown files in `content/`.
