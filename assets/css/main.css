@@ -16,8 +16,8 @@
   --coast-soft: #e3ebea;
   --sand: #d8c8a6;
   --mist: #dfe8e6;
-  --code-bg: #2f312d;
-  --code-text: #fffefa;
+  --code-bg: #f1f3ef;
+  --code-text: #2f3530;
   --shadow: 0 18px 48px rgba(55, 50, 40, 0.06);
   --shadow-hover: 0 20px 56px rgba(55, 50, 40, 0.09);
   --radius: 16px;
@@ -986,7 +986,8 @@ main {
 
 .prose-page pre {
   overflow: auto;
-  border-radius: 12px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
   background: var(--code-bg);
   color: var(--code-text);
   padding: 18px;
@@ -994,6 +995,26 @@ main {
 
 .prose-page code {
   font-size: 0.92em;
+}
+
+.prose-page :not(pre) > code {
+  border-radius: 4px;
+  background: color-mix(in srgb, var(--code-bg) 86%, var(--surface));
+  padding: 0.12em 0.32em;
+  color: var(--code-text);
+}
+
+.prose-page pre.shiki,
+.prose-page pre.shiki span {
+  background: var(--code-bg) !important;
+}
+
+:root:not([data-theme="dark"]) .prose-page pre.shiki span {
+  color: var(--shiki-default, var(--code-text)) !important;
+}
+
+:root[data-theme="dark"] .prose-page pre.shiki span {
+  color: var(--shiki-dark, var(--code-text)) !important;
 }
 
 html {
