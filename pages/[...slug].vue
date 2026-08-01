@@ -1,12 +1,8 @@
 <script setup lang="ts">
 const route = useRoute()
-const { data: page } = await useAsyncData(`content-${route.path}`, () =>
+const { data: page, pending } = await useAsyncData(`content-${route.path}`, () =>
   queryCollection('content').path(route.path).first()
 )
-
-if (!page.value) {
-  throw createError({ statusCode: 404, statusMessage: 'Page not found' })
-}
 
 const typeLabels: Record<string, string> = {
   blog: '博客',
@@ -40,7 +36,7 @@ useSeoMeta({
       :current-path="route.path"
     />
 
-    <article class="prose-page">
+    <article v-if="page" class="prose-page">
       <div class="article-kicker">
         <NuxtLink :to="page?.type === 'blog' ? '/blog' : page?.type === 'project' ? '/projects' : '/wiki'">
           {{ typeLabels[page?.type || 'page'] }}
@@ -49,6 +45,10 @@ useSeoMeta({
       </div>
       <ContentRenderer v-if="page" :value="page" />
     </article>
+
+    <div v-else-if="pending" class="article-loading" role="status">正在载入文章...</div>
+
+    <div v-else class="article-loading">未能找到这篇文章。</div>
 
     <aside v-if="isWikiArticle" class="wiki-toc-sidebar" aria-label="本文目录">
       <p class="wiki-sidebar-title">本文目录</p>
