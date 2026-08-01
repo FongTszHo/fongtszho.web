@@ -34,9 +34,8 @@ useSeoMeta({
 
 <template>
   <div :class="isWikiArticle ? 'wiki-article-layout' : undefined">
-    <WikiArticleSidebar
+    <WikiLibrarySidebar
       v-if="isWikiArticle"
-      :links="page?.body?.toc?.links"
       :notes="wikiNotes || []"
       :current-path="route.path"
     />
@@ -50,5 +49,13 @@ useSeoMeta({
       </div>
       <ContentRenderer v-if="page" :value="page" />
     </article>
+
+    <aside v-if="isWikiArticle" class="wiki-toc-sidebar" aria-label="本文目录">
+      <p class="wiki-sidebar-title">本文目录</p>
+      <nav class="wiki-toc" aria-label="本文目录">
+        <WikiTocLinks v-if="page?.body?.toc?.links?.length" :links="page.body.toc.links" />
+        <p v-else class="wiki-sidebar-empty">这篇笔记暂时没有小标题。</p>
+      </nav>
+    </aside>
   </div>
 </template>

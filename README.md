@@ -42,3 +42,15 @@ type: wiki
 draft: false
 ---
 ```
+
+## Obsidian Wiki Descriptions
+
+For notes synced from `My_Wiki`, add `description` to the frontmatter in the original Obsidian Markdown file:
+
+```md
+---
+description: "记录 Fedora 下 Niri、Wayland 和常用系统配置。"
+---
+```
+
+The sync script preserves this description when it generates `content/wiki/`. If it is omitted, the site uses an automatic category-based description.

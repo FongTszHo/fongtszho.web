@@ -1,4 +1,6 @@
 <script setup lang="ts">
+const route = useRoute()
+
 const navItems = [
   { label: 'HOME', to: '/' },
   { label: '博客', to: '/blog' },
@@ -6,10 +8,21 @@ const navItems = [
   { label: '项目', to: '/projects' },
   { label: '关于', to: '/about' }
 ]
+
+const { data: currentPage } = await useAsyncData(
+  () => `reading-progress-${route.path}`,
+  () => queryCollection('content').path(route.path).first(),
+  { watch: [() => route.path] }
+)
+
+const showReadingProgress = computed(() =>
+  ['wiki', 'blog', 'project'].includes(currentPage.value?.type || '')
+)
 </script>
 
 <template>
   <div class="site-shell">
+    <ReadingProgress v-if="showReadingProgress" />
     <GalaxyBackground />
 
     <header class="site-header">

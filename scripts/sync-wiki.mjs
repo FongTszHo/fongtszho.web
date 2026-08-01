@@ -77,10 +77,33 @@ function getLastUpdated(relativePath) {
   }
 }
 
-function removeFrontmatter(markdown) {
-  if (!markdown.startsWith('---\n')) return markdown
+function parseFrontmatterString(value) {
+  const trimmed = value.trim()
+
+  if (trimmed.startsWith('"') && trimmed.endsWith('"')) {
+    try {
+      return JSON.parse(trimmed)
+    } catch {
+      return trimmed.slice(1, -1)
+    }
+  }
+
+  if (trimmed.startsWith("'") && trimmed.endsWith("'")) return trimmed.slice(1, -1)
+  return trimmed
+}
+
+function extractFrontmatter(markdown) {
+  if (!markdown.startsWith('---\n')) return { body: markdown, description: undefined }
   const end = markdown.indexOf('\n---\n', 4)
-  return end === -1 ? markdown : markdown.slice(end + 5)
+  if (end === -1) return { body: markdown, description: undefined }
+
+  const frontmatter = markdown.slice(4, end)
+  const description = frontmatter.match(/^description:\s*(.+)$/m)?.[1]
+
+  return {
+    body: markdown.slice(end + 5),
+    description: description ? parseFrontmatterString(description) : undefined
+  }
 }
 
 function headingSlug(value) {
@@ -191,7 +214,8 @@ function transformLine(line, note) {
 }
 
 for (const note of notes) {
-  const source = removeFrontmatter(await readFile(note.absolutePath, 'utf8'))
+  const sourceDocument = extractFrontmatter(await readFile(note.absolutePath, 'utf8'))
+  const source = sourceDocument.body
   let inFence = false
   const body = source.split('\n').map((line) => {
     if (/^\s*(```|~~~)/.test(line)) {
@@ -204,7 +228,7 @@ for (const note of notes) {
   const frontmatter = [
     '---',
     `title: ${yamlString(note.title)}`,
-    `description: ${yamlString(`从 Obsidian 同步的 ${note.category} 笔记。`)}`,
+    `description: ${yamlString(sourceDocument.description || `从 Obsidian 同步的 ${note.category} 笔记。`)}`,
     ...(date ? [`date: ${date}`] : []),
     `category: ${yamlString(note.category)}`,
     `tags: [${yamlString(note.category)}]`,
