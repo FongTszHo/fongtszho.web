@@ -1,5 +1,6 @@
 <script setup lang="ts">
 const route = useRoute()
+const mobileMenuOpen = ref(false)
 
 const navItems = [
   { label: 'HOME', to: '/' },
@@ -12,6 +13,10 @@ const navItems = [
 const showReadingProgress = computed(() =>
   /^\/(?:wiki|blog|projects)\/.+/.test(route.path)
 )
+
+watch(() => route.fullPath, () => {
+  mobileMenuOpen.value = false
+})
 </script>
 
 <template>
@@ -22,15 +27,29 @@ const showReadingProgress = computed(() =>
     <header class="site-header">
       <NuxtLink class="brand" to="/" aria-label="FongTszHo Harbor 首页">
         <SiteAvatar />
+        <span class="mobile-wordmark">Tsz_Ho</span>
       </NuxtLink>
 
       <div class="header-actions">
-        <nav class="nav-links" aria-label="主导航">
+        <nav class="nav-links" :class="{ 'is-open': mobileMenuOpen }" aria-label="主导航">
           <NuxtLink v-for="item in navItems" :key="item.to" :to="item.to">
             {{ item.label }}
           </NuxtLink>
         </nav>
-        <ThemeToggle />
+        <div class="header-controls">
+          <ThemeToggle />
+          <button
+            class="mobile-menu-toggle"
+            type="button"
+            :aria-expanded="mobileMenuOpen"
+            aria-label="切换导航菜单"
+            @click="mobileMenuOpen = !mobileMenuOpen"
+          >
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+        </div>
       </div>
     </header>
 
